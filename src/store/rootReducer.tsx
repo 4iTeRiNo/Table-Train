@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import trainReducer from './getTrainSlice';
+import getTrainsReducer from './getTrainsSlice';
 
 const rootReducer = combineReducers({
-  getTrain: trainReducer,
+  getTrains: getTrainsReducer,
 });
 
 export default rootReducer;

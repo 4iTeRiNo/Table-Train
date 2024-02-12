@@ -1,16 +1,18 @@
-export type dataTrains = Train;
+import { Characteristics } from '../components/Characteristics';
 
-type Train = {
+export type TrainsData = TrainData[];
+
+export type TrainData = {
+  id: number;
   name: string;
   description: string;
   characteristics: Characteristics[];
 };
-type Characteristics = {
+
+export type Characteristics = {
   speed: number;
   force: number;
   engineAmperage: number;
 };
 
-// Вариант на union-типах
-// type TTrain = Record<string, string | TCharacteristics>;
-// type TCharacteristics = Record<string, number>[];
+export type Characteristic = keyof Characteristics;

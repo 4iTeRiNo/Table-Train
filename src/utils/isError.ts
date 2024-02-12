@@ -1,5 +1,5 @@
-import { AnyAction } from '@reduxjs/toolkit';
+import { UnknownAction } from '@reduxjs/toolkit';
 
-export function isError(action: AnyAction) {
+export function isError(action: UnknownAction) {
   return action.type.endsWith('rejected');
 }
