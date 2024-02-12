@@ -1,4 +1,3 @@
-import React from 'react';
 import { TheadValueCharacteristics } from '../../constants';
 import { useAppSelector } from '../../hooks';
 import { TableDescription } from './Table';
@@ -12,13 +11,11 @@ export const Characteristics = ({ showTableToIndex }: CharacteristicsProps) => {
   const descriptionCaption = TrainsData[showTableToIndex].name;
 
   return (
-    <>
-      <TableDescription
-        descriptionCaption={descriptionCaption}
-        showTableToIndex={showTableToIndex}
-        theadValue={TheadValueCharacteristics}
-        tbodyValue={TrainsData}
-      />
-    </>
+    <TableDescription
+      descriptionCaption={descriptionCaption}
+      showTableToIndex={showTableToIndex}
+      theadValue={TheadValueCharacteristics}
+      tbodyValue={TrainsData}
+    />
   );
 };
