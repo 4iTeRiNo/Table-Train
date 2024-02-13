@@ -1,3 +1,5 @@
+import { useAppDispatch } from '../../hooks';
+import { loaderSaveTrue } from '../../store/action';
 import styles from './Button.module.css';
 
 interface ButtonProps {
@@ -6,11 +8,15 @@ interface ButtonProps {
 }
 
 export const Button = ({ disabled, sortedSpeed }: ButtonProps) => {
+  const dispatch = useAppDispatch();
   return (
     <button
       disabled={disabled}
       className={styles.button}
-      onClick={() => console.log(sortedSpeed)}
+      onClick={() => {
+        dispatch(loaderSaveTrue());
+        console.log(sortedSpeed);
+      }}
     >
       Отправить данные
     </button>

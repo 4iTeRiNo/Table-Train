@@ -16,3 +16,6 @@ export const validateValue = createAction<{
   errorWrite: ErrorType | null;
   key: Characteristic;
 }>('trainSlice/validateValue');
+
+export const loaderSaveTrue = createAction('trainSlice/loaderSaveTrue');
+export const loaderSaveFalse = createAction('trainSlice/loaderSaveFalse');

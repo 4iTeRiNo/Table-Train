@@ -55,7 +55,8 @@ export const FormEditTable = ({
   );
   return (
     <td
-      contentEditable="true"
+      suppressContentEditableWarning={true}
+      contentEditable={true}
       data-value={value}
       data-id
       data-key={characteristic}

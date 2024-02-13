@@ -2,13 +2,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TrainData, TrainsData } from '../types';
 import { fetchTrain } from './thunks';
 import { isError } from '../utils/isError';
-import { getTrainByIndex, validateValue } from './action';
+import {
+  getTrainByIndex,
+  loaderSaveFalse,
+  loaderSaveTrue,
+  validateValue,
+} from './action';
 import { ErrorData } from '../types/errorData';
 import { validate } from '../utils/getValidateValue';
 
 export type trainState = {
   list: TrainsData;
   status: string;
+  isLoading: boolean;
   error: string | null;
   isValidate: boolean;
   index: number;
@@ -18,6 +24,7 @@ export type trainState = {
 
 const initialState: trainState = {
   list: [],
+  isLoading: false,
   index: 0,
   status: 'idle',
   isValidate: true,
@@ -46,10 +53,16 @@ const getTrainsSlice = createSlice({
           };
         });
       })
+      .addCase(loaderSaveTrue, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(loaderSaveFalse, (state) => {
+        state.isLoading = false;
+      })
       .addCase(validateValue, (state, action) => {
         const { key, index, value, errorWrite } = action.payload;
         if (validate(key, value)) {
-          state.train = {
+          (state.train = {
             id: index,
             name: state.train?.name,
             description: state.train?.description,
@@ -65,8 +78,8 @@ const getTrainsSlice = createSlice({
                 }
               },
             ),
-          };
-          state.isValidate = true;
+          }),
+            (state.isValidate = true);
           state.errorData.pop();
         } else {
           state.errorData.push(errorWrite);

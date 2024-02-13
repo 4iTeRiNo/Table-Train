@@ -5,10 +5,13 @@ import { fetchTrain } from './store/thunks';
 import { Trains } from './components/Trains/Trains';
 import { Characteristics } from './components/Characteristics';
 import { Button } from './components/Button';
+import { Loader } from './components/Loader/Loader';
 
 function App() {
   const id = useAppSelector((state) => state.getTrains.train?.id);
-  const { errorData, train } = useAppSelector((state) => state.getTrains);
+  const { errorData, train, isLoading } = useAppSelector(
+    (state) => state.getTrains,
+  );
 
   const sortedSpeed = train?.characteristics
     ?.map((item) => item.speed)
@@ -23,6 +26,7 @@ function App() {
   return (
     <div className="App">
       <div className="table1">
+        {isLoading && <Loader />}
         <Trains />
       </div>
       {id || id === 0 ? (
