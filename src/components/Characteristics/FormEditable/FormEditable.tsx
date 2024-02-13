@@ -1,6 +1,6 @@
-import { useCallback, FocusEventHandler, useState } from 'react';
+import { useCallback, FocusEventHandler } from 'react';
 import styles from './FormEditable.module.css';
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { validateValue } from '../../../store/action';
 import { Characteristic } from '../../../types';
 
@@ -15,7 +15,7 @@ export const FormEditTable = ({
   characteristic,
 }: FormEditTableProp) => {
   const dispatch = useAppDispatch();
-  const [isError, setIsError] = useState(false);
+  const { isValidate } = useAppSelector((state) => state.getTrains);
 
   const onBlur = useCallback<FocusEventHandler<HTMLTableDataCellElement>>(
     (event) => {
@@ -28,9 +28,6 @@ export const FormEditTable = ({
             key: characteristic,
           }),
         );
-        setIsError(true);
-      } else {
-        setIsError(false);
       }
     },
     [dispatch, characteristic, index],
@@ -42,7 +39,7 @@ export const FormEditTable = ({
       data-id
       data-key={characteristic}
       onBlur={onBlur}
-      className={isError ? styles.error : styles.content}
+      className={isValidate ? styles.content : styles.error}
     >
       {value}
     </td>

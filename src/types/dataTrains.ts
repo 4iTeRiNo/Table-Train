@@ -1,10 +1,10 @@
 export type TrainsData = TrainData[];
 
 export type TrainData = {
-  id: number;
-  name: string;
-  description: string;
-  characteristics: Characteristics[];
+  id: number | undefined;
+  name: string | undefined;
+  description: string | undefined;
+  characteristics: Characteristics[] | undefined;
 };
 
 export type Characteristics = {

@@ -6,16 +6,17 @@ import { isError } from '../utils/isError';
 
 // } from '../utils/getValidateValue';
 import { getTrainByIndex, validateValue } from './action';
+import { validate } from '../utils/getValidateValue';
 // import { validate } from '../utils/getValidateValue';
 
-type trainState = {
+export type trainState = {
   list: TrainsData;
   status: string;
   error: string | null;
   disabled: boolean;
   isValidate: boolean;
   index: number;
-  train: TrainData | null;
+  train: TrainData | undefined;
 };
 
 const initialState: trainState = {
@@ -23,30 +24,15 @@ const initialState: trainState = {
   index: 0,
   status: 'idle',
   disabled: false,
-  isValidate: false,
+  isValidate: true,
   error: null,
-  train: null,
+  train: undefined,
 };
 
 const getTrainsSlice = createSlice({
   name: 'trainSlice',
   initialState,
-  reducers: {
-    // isValidate: (state, action) => {
-    //   state.train?.characteristics.map((value) => {
-    //     const keyCharacteristics = action.payload.key;
-    //     if (value) {
-    //       console.log(validate(keyCharacteristics, 100));
-    //       state.isValidate = true;
-    //       state.disabled = false;
-    //       console.log('hee');
-    //     } else {
-    //       state.isValidate = false;
-    //       state.disabled = true;
-    //     }
-    //   });
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchTrain.pending, (state) => {
@@ -63,37 +49,34 @@ const getTrainsSlice = createSlice({
           };
         });
       })
-      // .addCase(validateValue, (state, action) => {
-      //   state.train?.characteristics.map((valueCharacteristics) => {
-      //     const keyCharacteristics = action.payload.key;
-      //     console.log(action.payload.value, keyCharacteristics);
-
-      //     if (validate(keyCharacteristics, +action.payload.value)) {
-      //       state.isValidate = true;
-      //       state.disabled = false;
-      //     } else {
-      //       state.isValidate = false;
-      //       state.disabled = true;
-      //     }
-      //   });
-      // })
       .addCase(validateValue, (state, action) => {
         const { key, index, value } = action.payload;
-        return {
-          ...state,
-          characteristics: state.train?.characteristics.map(
-            (item, arrayIndex) => {
-              if (arrayIndex === index) {
-                return {
-                  ...item,
-                  [key]: +value,
-                };
-              } else {
-                return state;
-              }
-            },
-          ),
-        };
+        const isNum = Number(value);
+        console.log(isNum, validate(key, isNum));
+
+        if (validate(key, isNum)) {
+          state.train = {
+            id: index,
+            name: state.train?.name,
+            description: state.train?.description,
+            characteristics: state.train?.characteristics?.map(
+              (item, currentIndex) => {
+                if (currentIndex === index) {
+                  return {
+                    ...item,
+                    [key]: +value,
+                  };
+                } else {
+                  return item;
+                }
+              },
+            ),
+          };
+          state.isValidate = true;
+        } else {
+          state.disabled = true;
+          state.isValidate = false;
+        }
       })
       .addCase(getTrainByIndex, (state, action) => {
         const train = state.list.find(

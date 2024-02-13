@@ -5,7 +5,7 @@ import { FormEditTable } from '../FormEditable/FormEditable';
 
 interface TableProps {
   theadValue: string[];
-  train: TrainData | null;
+  train: TrainData | undefined;
 }
 
 export const TableDescription = ({ theadValue, train }: TableProps) => {
