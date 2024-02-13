@@ -1,8 +1,9 @@
-import { useCallback, FocusEventHandler } from 'react';
+import { useCallback, FocusEventHandler, useState } from 'react';
 import styles from './FormEditable.module.css';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch } from '../../../hooks';
 import { validateValue } from '../../../store/action';
 import { Characteristic } from '../../../types';
+import { validate } from '../../../utils/getValidateValue';
 
 interface FormEditTableProp {
   value: string | number;
@@ -15,19 +16,40 @@ export const FormEditTable = ({
   characteristic,
 }: FormEditTableProp) => {
   const dispatch = useAppDispatch();
-  const { isValidate } = useAppSelector((state) => state.getTrains);
-
+  const [error, setError] = useState<string | null>(null);
   const onBlur = useCallback<FocusEventHandler<HTMLTableDataCellElement>>(
     (event) => {
       const value = event.currentTarget.textContent;
-      if (value?.trim() && value !== event.target.dataset.value) {
-        dispatch(
-          validateValue({
-            index: index,
-            value: value,
-            key: characteristic,
-          }),
-        );
+
+      if (
+        (value?.trim() && value !== event.target.dataset.value) ||
+        value === event.target.dataset.value
+      ) {
+        const valueToNum = Number(value);
+        console.log(validate(characteristic, valueToNum), valueToNum);
+
+        if (validate(characteristic, valueToNum)) {
+          dispatch(
+            validateValue({
+              index: index,
+              errorWrite: null,
+              value: valueToNum,
+              key: characteristic,
+            }),
+          );
+          setError(null);
+          return;
+        } else {
+          dispatch(
+            validateValue({
+              index: index,
+              errorWrite: { [characteristic]: 'Ошибка ввода' },
+              value: valueToNum,
+              key: characteristic,
+            }),
+          );
+          setError('Ошибка ввода');
+        }
       }
     },
     [dispatch, characteristic, index],
@@ -39,7 +61,7 @@ export const FormEditTable = ({
       data-id
       data-key={characteristic}
       onBlur={onBlur}
-      className={isValidate ? styles.content : styles.error}
+      className={error ? styles.error : styles.content}
     >
       {value}
     </td>

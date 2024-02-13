@@ -8,8 +8,7 @@ import { Button } from './components/Button';
 
 function App() {
   const id = useAppSelector((state) => state.getTrains.train?.id);
-
-  const { disabled } = useAppSelector((state) => state.getTrains);
+  const { errorData } = useAppSelector((state) => state.getTrains);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -26,7 +25,11 @@ function App() {
           <div className="table2">
             <Characteristics />
           </div>
-          <Button disabled={disabled} />
+          {errorData.length ? (
+            <Button disabled={true} />
+          ) : (
+            <Button disabled={false} />
+          )}
         </div>
       ) : undefined}
     </div>

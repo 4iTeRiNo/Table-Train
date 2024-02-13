@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { Characteristic } from '../types';
+import { ErrorType } from '../types/errorData';
 
 export const getTrainByIndex = createAction<{
   index: number;
@@ -11,6 +12,7 @@ export const showTrainCharacteristics = createAction(
 
 export const validateValue = createAction<{
   index: number;
-  value: string;
+  value: number;
+  errorWrite: ErrorType | null;
   key: Characteristic;
 }>('trainSlice/validateValue');

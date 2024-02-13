@@ -2,31 +2,27 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TrainData, TrainsData } from '../types';
 import { fetchTrain } from './thunks';
 import { isError } from '../utils/isError';
-// import {
-
-// } from '../utils/getValidateValue';
 import { getTrainByIndex, validateValue } from './action';
-import { validate } from '../utils/getValidateValue';
-// import { validate } from '../utils/getValidateValue';
+import { ErrorData } from '../types/errorData';
 
 export type trainState = {
   list: TrainsData;
   status: string;
   error: string | null;
-  disabled: boolean;
   isValidate: boolean;
   index: number;
   train: TrainData | undefined;
+  errorData: ErrorData;
 };
 
 const initialState: trainState = {
   list: [],
   index: 0,
   status: 'idle',
-  disabled: false,
   isValidate: true,
   error: null,
   train: undefined,
+  errorData: [],
 };
 
 const getTrainsSlice = createSlice({
@@ -50,11 +46,8 @@ const getTrainsSlice = createSlice({
         });
       })
       .addCase(validateValue, (state, action) => {
-        const { key, index, value } = action.payload;
-        const isNum = Number(value);
-        console.log(isNum, validate(key, isNum));
-
-        if (validate(key, isNum)) {
+        const { key, index, value, errorWrite } = action.payload;
+        if (!isNaN(value)) {
           state.train = {
             id: index,
             name: state.train?.name,
@@ -64,7 +57,7 @@ const getTrainsSlice = createSlice({
                 if (currentIndex === index) {
                   return {
                     ...item,
-                    [key]: +value,
+                    [key]: value,
                   };
                 } else {
                   return item;
@@ -73,8 +66,9 @@ const getTrainsSlice = createSlice({
             ),
           };
           state.isValidate = true;
+          state.errorData.pop();
         } else {
-          state.disabled = true;
+          state.errorData.push(errorWrite);
           state.isValidate = false;
         }
       })
