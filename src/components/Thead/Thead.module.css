@@ -1,0 +1,24 @@
+.thead {
+  font-size: clamp(14px, 2vw, 18px);
+  padding: auto;
+  background-color: #f6f8fa;
+}
+
+th,
+td {
+  padding: 15px 20px;
+  text-align: center;
+  text-wrap: nowrap;
+  font-size: clamp(14px, 2vw, 18px);
+}
+
+tr {
+  border-bottom: 2px solid #f6f8fa;
+}
+
+tr:last-child {
+  border-bottom: none;
+}
+th {
+  opacity: 0.5;
+}

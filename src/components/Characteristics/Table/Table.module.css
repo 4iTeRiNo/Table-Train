@@ -1,0 +1,18 @@
+.table {
+  border-collapse: collapse;
+  background-color: #ffff;
+  width: 100%;
+  height: fit-content;
+}
+
+.caption {
+  text-align: left;
+  font-size: clamp(16px, 2vw, 26px);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.thead {
+  font-size: clamp(14px, 2vw, 18px);
+  margin: auto;
+  background-color: #f6f8fa;
+}

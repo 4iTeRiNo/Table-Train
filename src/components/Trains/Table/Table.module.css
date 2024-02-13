@@ -1,0 +1,15 @@
+.table {
+  border-collapse: collapse;
+  background-color: #ffff;
+  width: 100%;
+}
+.caption {
+  text-align: left;
+  font-size: clamp(16px, 2vw, 26px);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.tr {
+  cursor: pointer;
+}
