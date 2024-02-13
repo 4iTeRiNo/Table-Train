@@ -4,6 +4,7 @@ import { fetchTrain } from './thunks';
 import { isError } from '../utils/isError';
 import { getTrainByIndex, validateValue } from './action';
 import { ErrorData } from '../types/errorData';
+import { validate } from '../utils/getValidateValue';
 
 export type trainState = {
   list: TrainsData;
@@ -47,7 +48,7 @@ const getTrainsSlice = createSlice({
       })
       .addCase(validateValue, (state, action) => {
         const { key, index, value, errorWrite } = action.payload;
-        if (!isNaN(value)) {
+        if (validate(key, value)) {
           state.train = {
             id: index,
             name: state.train?.name,

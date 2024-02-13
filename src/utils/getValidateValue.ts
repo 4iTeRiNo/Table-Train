@@ -1,10 +1,10 @@
 import { Characteristic } from '../types';
 
 const isNumber = (value: number): boolean => {
-  if (isNaN(value) && !Number.isInteger(value)) {
-    return false;
-  } else {
+  if (!isNaN(value) && Number.isInteger(value)) {
     return true;
+  } else {
+    return false;
   }
 };
 
