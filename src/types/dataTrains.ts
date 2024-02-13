@@ -1,5 +1,3 @@
-import { Characteristics } from '../components/Characteristics';
-
 export type TrainsData = TrainData[];
 
 export type TrainData = {

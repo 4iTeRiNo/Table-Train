@@ -2,12 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TrainData, TrainsData } from '../types';
 import { fetchTrain } from './thunks';
 import { isError } from '../utils/isError';
-import {
-  isFloatingPointNumber,
-  isNumber,
-  isPositiveNumber,
-} from '../utils/getValidateValue';
+// import {
+
+// } from '../utils/getValidateValue';
 import { getTrainByIndex, validateValue } from './action';
+// import { validate } from '../utils/getValidateValue';
 
 type trainState = {
   list: TrainsData;
@@ -15,13 +14,13 @@ type trainState = {
   error: string | null;
   disabled: boolean;
   isValidate: boolean;
-  value: number;
+  index: number;
   train: TrainData | null;
 };
 
 const initialState: trainState = {
   list: [],
-  value: 0,
+  index: 0,
   status: 'idle',
   disabled: false,
   isValidate: false,
@@ -33,21 +32,20 @@ const getTrainsSlice = createSlice({
   name: 'trainSlice',
   initialState,
   reducers: {
-    isValidate: (state) => {
-      state.train?.characteristics.map((value) => {
-        if (
-          isPositiveNumber(value.engineAmperage) &&
-          isNumber(value.speed) &&
-          isFloatingPointNumber(value.force)
-        ) {
-          state.isValidate = true;
-          state.disabled = false;
-        } else {
-          state.isValidate = false;
-          state.disabled = true;
-        }
-      });
-    },
+    // isValidate: (state, action) => {
+    //   state.train?.characteristics.map((value) => {
+    //     const keyCharacteristics = action.payload.key;
+    //     if (value) {
+    //       console.log(validate(keyCharacteristics, 100));
+    //       state.isValidate = true;
+    //       state.disabled = false;
+    //       console.log('hee');
+    //     } else {
+    //       state.isValidate = false;
+    //       state.disabled = true;
+    //     }
+    //   });
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -58,7 +56,6 @@ const getTrainsSlice = createSlice({
       .addCase(fetchTrain.fulfilled, (state, action) => {
         state.list = action.payload.map((item, index) => {
           return {
-            // переделать на индекс
             id: index,
             name: item.name,
             description: item.description,
@@ -66,6 +63,20 @@ const getTrainsSlice = createSlice({
           };
         });
       })
+      // .addCase(validateValue, (state, action) => {
+      //   state.train?.characteristics.map((valueCharacteristics) => {
+      //     const keyCharacteristics = action.payload.key;
+      //     console.log(action.payload.value, keyCharacteristics);
+
+      //     if (validate(keyCharacteristics, +action.payload.value)) {
+      //       state.isValidate = true;
+      //       state.disabled = false;
+      //     } else {
+      //       state.isValidate = false;
+      //       state.disabled = true;
+      //     }
+      //   });
+      // })
       .addCase(validateValue, (state, action) => {
         const { key, index, value } = action.payload;
         return {

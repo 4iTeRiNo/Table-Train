@@ -7,14 +7,9 @@ import { getTrainByIndex } from '../../../store/action';
 interface TableProps {
   theadValue: string[];
   tbodyValue: TrainsData;
-  setShowTableToIndex: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
-export const TableTrains = ({
-  theadValue,
-  tbodyValue,
-  setShowTableToIndex,
-}: TableProps) => {
+export const TableTrains = ({ theadValue, tbodyValue }: TableProps) => {
   const dispatch = useAppDispatch();
   return (
     <table className={styles.table}>
@@ -25,7 +20,6 @@ export const TableTrains = ({
           return (
             <tr
               onClick={() => {
-                setShowTableToIndex(value.id);
                 dispatch(getTrainByIndex({ index }));
               }}
               className={styles.tr}

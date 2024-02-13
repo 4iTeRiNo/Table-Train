@@ -33,13 +33,14 @@ export const FormEditTable = ({
         setIsError(false);
       }
     },
-    [dispatch],
+    [dispatch, characteristic, index],
   );
   return (
     <td
       contentEditable="true"
       data-value={value}
       data-id
+      data-key={characteristic}
       onBlur={onBlur}
       className={isError ? styles.error : styles.content}
     >

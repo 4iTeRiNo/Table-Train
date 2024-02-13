@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './App.css';
 import { useAppDispatch, useAppSelector } from './hooks';
 import { fetchTrain } from './store/thunks';
@@ -7,10 +7,9 @@ import { Characteristics } from './components/Characteristics';
 import { Button } from './components/Button';
 
 function App() {
-  const [showTableToIndex, setShowTableToIndex] = useState<number | undefined>(
-    undefined,
-  );
-  const { disabled: disabled } = useAppSelector((state) => state.getTrains);
+  const id = useAppSelector((state) => state.getTrains.train?.id);
+
+  const { disabled } = useAppSelector((state) => state.getTrains);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -20,12 +19,12 @@ function App() {
   return (
     <div className="App">
       <div className="table1">
-        <Trains setShowTableToIndex={setShowTableToIndex} />
+        <Trains />
       </div>
-      {showTableToIndex ? (
+      {id || id === 0 ? (
         <div className="wrapper">
           <div className="table2">
-            <Characteristics showTableToIndex={showTableToIndex} />
+            <Characteristics />
           </div>
           <Button disabled={disabled} />
         </div>
