@@ -26,7 +26,6 @@ export const FormEditTable = ({
         value === event.target.dataset.value
       ) {
         const valueToNum = Number(value);
-        console.log(validate(characteristic, valueToNum), valueToNum);
 
         if (validate(characteristic, valueToNum)) {
           dispatch(

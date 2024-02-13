@@ -8,7 +8,12 @@ import { Button } from './components/Button';
 
 function App() {
   const id = useAppSelector((state) => state.getTrains.train?.id);
-  const { errorData } = useAppSelector((state) => state.getTrains);
+  const { errorData, train } = useAppSelector((state) => state.getTrains);
+
+  const sortedSpeed = train?.characteristics
+    ?.map((item) => item.speed)
+    .sort((a: number, b: number): number => a - b);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -26,9 +31,9 @@ function App() {
             <Characteristics />
           </div>
           {errorData.length ? (
-            <Button disabled={true} />
+            <Button sortedSpeed={sortedSpeed} disabled={true} />
           ) : (
-            <Button disabled={false} />
+            <Button sortedSpeed={sortedSpeed} disabled={false} />
           )}
         </div>
       ) : undefined}
