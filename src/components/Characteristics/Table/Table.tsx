@@ -15,7 +15,7 @@ export const TableDescription = ({ theadValue, train }: TableProps) => {
       <caption className={styles.caption}>{train?.name}</caption>
       <Thead theadValue={theadValue} />
       <tbody>
-        {train?.characteristics.map((value, index) => {
+        {train?.characteristics?.map((value, index) => {
           return (
             <tr key={index}>
               {Object.entries(value).map(([key, value]) => {
